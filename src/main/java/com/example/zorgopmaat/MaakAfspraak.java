@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -16,8 +17,10 @@ public class MaakAfspraak {
 
     private ChoiceBox<ZorgverlenerKeuze> zorgVerlenerChoiceBox;
     private ChoiceBox<PatientKeuze> patientChoiceBox;
-    private TextField naamPatientInput, tijdAfspraakInput, datumAfspraakInput, locatieAfspraakInput;
+    private TextField tijdAfspraakInput, datumAfspraakInput, locatieAfspraakInput;
     private Button terugBtn, VoegAfspraakToe;
+
+    private Label patientName, zorgVerlenerNaam, tijdAfspraakLabel, datumAfspraakLabel, locatieAfspraakLabel;
 
     private Database databaseHandler;
 
@@ -36,21 +39,41 @@ public class MaakAfspraak {
             Patient patient = new Patient(stage);
         });
 
+        patientName = new Label("Naam Patient");
+        patientName.setLayoutX(357);
+        patientName.setLayoutY(375);
+
         patientChoiceBox = new ChoiceBox<>();
         patientChoiceBox.setLayoutX(500);
         patientChoiceBox.setLayoutY(350);
+
+        zorgVerlenerNaam = new Label("Naam zorgverlener");
+        zorgVerlenerNaam.setLayoutX(357);
+        zorgVerlenerNaam.setLayoutY(427);
 
         zorgVerlenerChoiceBox = new ChoiceBox<>();
         zorgVerlenerChoiceBox.setLayoutX(500);
         zorgVerlenerChoiceBox.setLayoutY(400);
 
+        tijdAfspraakLabel = new Label("Tijd afspraak");
+        tijdAfspraakLabel.setLayoutX(357);
+        tijdAfspraakLabel.setLayoutY(479);
+
         tijdAfspraakInput = new TextField();
         tijdAfspraakInput.setLayoutX(500);
         tijdAfspraakInput.setLayoutY(450);
 
+        datumAfspraakLabel = new Label("Datum afspraak");
+        datumAfspraakLabel.setLayoutX(357);
+        datumAfspraakLabel.setLayoutY(531);
+
         datumAfspraakInput = new TextField();
         datumAfspraakInput.setLayoutX(500);
         datumAfspraakInput.setLayoutY(500);
+
+        locatieAfspraakLabel = new Label("Locatie afspraak");
+        locatieAfspraakLabel.setLayoutX(357);
+        locatieAfspraakLabel.setLayoutY(583);
 
         locatieAfspraakInput = new TextField();
         locatieAfspraakInput.setLayoutX(500);
@@ -62,14 +85,16 @@ public class MaakAfspraak {
         VoegAfspraakToe.setOnAction(e -> {
             // Voeg je logica toe om de afspraak op te slaan
             voegAfspraakToe();
+
+            Afspraak afspraak = new Afspraak(stage);
         });
 
         // Populate the ChoiceBoxes with values from the database
         populateZorgVerleners();
         populatePatienten();
 
-        root.getChildren().addAll(terugBtn, patientChoiceBox, zorgVerlenerChoiceBox,
-                tijdAfspraakInput, datumAfspraakInput, locatieAfspraakInput, VoegAfspraakToe);
+        root.getChildren().addAll(terugBtn, patientName, patientChoiceBox, zorgVerlenerNaam, zorgVerlenerChoiceBox,
+                tijdAfspraakLabel, tijdAfspraakInput,datumAfspraakLabel, datumAfspraakInput, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
 
         stage.setScene(scene);
     }
@@ -88,7 +113,6 @@ public class MaakAfspraak {
 
     private void voegAfspraakToe() {
         // Ophalen van de benodigde gegevens
-        String naamPatient = naamPatientInput.getText();
         int zorgverlenerId = zorgVerlenerChoiceBox.getValue().getZorgverlenerId();
         int patientId = patientChoiceBox.getValue().getPatientId();
         String datum = datumAfspraakInput.getText();
