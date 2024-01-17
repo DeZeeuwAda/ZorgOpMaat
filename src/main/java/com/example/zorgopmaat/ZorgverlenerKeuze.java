@@ -1,25 +1,21 @@
-// ZorgverlenerKeuze.java
 package com.example.zorgopmaat;
 
 public class ZorgverlenerKeuze {
-    private int zorgverlenerId;
-    private String zorgverlenerNaam;
 
-    public ZorgverlenerKeuze(int zorgverlenerId, String zorgverlenerNaam) {
+    private int zorgverlenerId;
+    private String naam;
+
+    public ZorgverlenerKeuze(int zorgverlenerId, String naam) {
         this.zorgverlenerId = zorgverlenerId;
-        this.zorgverlenerNaam = zorgverlenerNaam;
+        this.naam = naam;
     }
 
     public int getZorgverlenerId() {
         return zorgverlenerId;
     }
 
-    public String getZorgverlenerNaam() {
-        return zorgverlenerNaam;
-    }
-
     @Override
     public String toString() {
-        return zorgverlenerNaam; // Dit is wat de ChoiceBox zal weergeven
+        return naam;
     }
 }

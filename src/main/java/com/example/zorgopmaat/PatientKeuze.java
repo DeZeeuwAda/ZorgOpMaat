@@ -1,4 +1,3 @@
-// ZorgverlenerKeuze.java
 package com.example.zorgopmaat;
 
 public class PatientKeuze {
