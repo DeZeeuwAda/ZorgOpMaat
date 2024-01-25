@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 public class MaakAfspraak {
 
@@ -21,7 +20,7 @@ public class MaakAfspraak {
 
     private Label patientName, zorgVerlenerNaam, tijdAfspraakLabel, locatieAfspraakLabel, datumAfspraakLabel;
 
-    private DatePicker datumAfspraakDatePicker;
+    private DatePicker datumAfspraakDatePicker; // Voeg DatePicker toe
 
     private Database databaseHandler;
 
@@ -64,20 +63,6 @@ public class MaakAfspraak {
         tijdAfspraakInput.setLayoutX(500);
         tijdAfspraakInput.setLayoutY(450);
 
-        // Voeg TextFormatter toe om de tijd te beperken tussen 09:00 en 17:00
-        UnaryOperator<TextFormatter.Change> filter = change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("^(0[9]|1[0-6]):[0-5][0-9]$")) {
-                return change;
-            } else {
-                showAlert("Ongeldige tijd", "Voer een tijd in tussen 09:00 en 17:00");
-                return null;
-            }
-        };
-
-        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-        tijdAfspraakInput.setTextFormatter(textFormatter);
-
         datumAfspraakLabel = new Label("Datum afspraak");
         datumAfspraakLabel.setLayoutX(357);
         datumAfspraakLabel.setLayoutY(500);
@@ -115,12 +100,12 @@ public class MaakAfspraak {
             Afspraak afspraak = new Afspraak(stage);
         });
 
-        // Vul de keuzelijsten met waarden uit de database
+        // Populate the ChoiceBoxes with values from the database
         populateZorgVerleners();
         populatePatienten();
 
         root.getChildren().addAll(terugBtn, patientName, patientChoiceBox, zorgVerlenerNaam, zorgVerlenerChoiceBox,
-                tijdAfspraakLabel, tijdAfspraakInput, datumAfspraakLabel, datumAfspraakDatePicker, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
+                tijdAfspraakLabel, tijdAfspraakInput,datumAfspraakLabel, datumAfspraakDatePicker, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
 
         stage.setScene(scene);
     }
@@ -146,13 +131,5 @@ public class MaakAfspraak {
 
         // Voeg de afspraak toe via de databasehandler
         databaseHandler.toevoegenAfspraak(patientId, zorgverlenerId, Date.valueOf(datum), tijdAfspraakInput.getText(), locatieAfspraakInput.getText());
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
