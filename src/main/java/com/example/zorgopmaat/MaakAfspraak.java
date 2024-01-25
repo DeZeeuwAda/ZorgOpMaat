@@ -1,26 +1,27 @@
-// MaakAfspraak.java
 package com.example.zorgopmaat;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class MaakAfspraak {
 
     private ChoiceBox<ZorgverlenerKeuze> zorgVerlenerChoiceBox;
     private ChoiceBox<PatientKeuze> patientChoiceBox;
-    private TextField tijdAfspraakInput, datumAfspraakInput, locatieAfspraakInput;
+    private TextField tijdAfspraakInput, locatieAfspraakInput;
     private Button terugBtn, VoegAfspraakToe;
 
-    private Label patientName, zorgVerlenerNaam, tijdAfspraakLabel, datumAfspraakLabel, locatieAfspraakLabel;
+    private Label patientName, zorgVerlenerNaam, tijdAfspraakLabel, locatieAfspraakLabel, datumAfspraakLabel;
+
+    private DatePicker datumAfspraakDatePicker;
 
     private Database databaseHandler;
 
@@ -41,7 +42,7 @@ public class MaakAfspraak {
 
         patientName = new Label("Naam Patient");
         patientName.setLayoutX(357);
-        patientName.setLayoutY(375);
+        patientName.setLayoutY(350);
 
         patientChoiceBox = new ChoiceBox<>();
         patientChoiceBox.setLayoutX(500);
@@ -49,7 +50,7 @@ public class MaakAfspraak {
 
         zorgVerlenerNaam = new Label("Naam zorgverlener");
         zorgVerlenerNaam.setLayoutX(357);
-        zorgVerlenerNaam.setLayoutY(427);
+        zorgVerlenerNaam.setLayoutY(400);
 
         zorgVerlenerChoiceBox = new ChoiceBox<>();
         zorgVerlenerChoiceBox.setLayoutX(500);
@@ -57,23 +58,48 @@ public class MaakAfspraak {
 
         tijdAfspraakLabel = new Label("Tijd afspraak");
         tijdAfspraakLabel.setLayoutX(357);
-        tijdAfspraakLabel.setLayoutY(479);
+        tijdAfspraakLabel.setLayoutY(450);
 
         tijdAfspraakInput = new TextField();
         tijdAfspraakInput.setLayoutX(500);
         tijdAfspraakInput.setLayoutY(450);
 
+        // Voeg TextFormatter toe om de tijd te beperken tussen 09:00 en 17:00
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^(0[9]|1[0-6]):[0-5][0-9]$")) {
+                return change;
+            } else {
+                showAlert("Ongeldige tijd", "Voer een tijd in tussen 09:00 en 17:00");
+                return null;
+            }
+        };
+
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        tijdAfspraakInput.setTextFormatter(textFormatter);
+
         datumAfspraakLabel = new Label("Datum afspraak");
         datumAfspraakLabel.setLayoutX(357);
-        datumAfspraakLabel.setLayoutY(531);
+        datumAfspraakLabel.setLayoutY(500);
 
-        datumAfspraakInput = new TextField();
-        datumAfspraakInput.setLayoutX(500);
-        datumAfspraakInput.setLayoutY(500);
+        datumAfspraakDatePicker = new DatePicker();
+        datumAfspraakDatePicker.setLayoutX(500);
+        datumAfspraakDatePicker.setLayoutY(500);
+
+        // Stel de huidige datum in als de standaardwaarde
+        datumAfspraakDatePicker.setValue(LocalDate.now());
+
+        // Beperk de datum tot alleen toekomstige data
+        datumAfspraakDatePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(LocalDate.now()));
+            }
+        });
 
         locatieAfspraakLabel = new Label("Locatie afspraak");
         locatieAfspraakLabel.setLayoutX(357);
-        locatieAfspraakLabel.setLayoutY(583);
+        locatieAfspraakLabel.setLayoutY(550);
 
         locatieAfspraakInput = new TextField();
         locatieAfspraakInput.setLayoutX(500);
@@ -89,12 +115,12 @@ public class MaakAfspraak {
             Afspraak afspraak = new Afspraak(stage);
         });
 
-        // Populate the ChoiceBoxes with values from the database
+        // Vul de keuzelijsten met waarden uit de database
         populateZorgVerleners();
         populatePatienten();
 
         root.getChildren().addAll(terugBtn, patientName, patientChoiceBox, zorgVerlenerNaam, zorgVerlenerChoiceBox,
-                tijdAfspraakLabel, tijdAfspraakInput,datumAfspraakLabel, datumAfspraakInput, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
+                tijdAfspraakLabel, tijdAfspraakInput, datumAfspraakLabel, datumAfspraakDatePicker, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
 
         stage.setScene(scene);
     }
@@ -115,13 +141,18 @@ public class MaakAfspraak {
         // Ophalen van de benodigde gegevens
         int zorgverlenerId = zorgVerlenerChoiceBox.getValue().getZorgverlenerId();
         int patientId = patientChoiceBox.getValue().getPatientId();
-        String datum = datumAfspraakInput.getText();
-        String tijd = tijdAfspraakInput.getText();
-        String locatie = locatieAfspraakInput.getText();
+        LocalDate geselecteerdeDatum = datumAfspraakDatePicker.getValue();
+        String datum = (geselecteerdeDatum != null) ? geselecteerdeDatum.toString() : ""; // Zet LocalDate naar String
 
         // Voeg de afspraak toe via de databasehandler
-        databaseHandler.toevoegenAfspraak(patientId, zorgverlenerId, datum, tijd, locatie);
+        databaseHandler.toevoegenAfspraak(patientId, zorgverlenerId, Date.valueOf(datum), tijdAfspraakInput.getText(), locatieAfspraakInput.getText());
+    }
 
-        // Voeg hier eventueel verdere logica toe na het toevoegen van de afspraak
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

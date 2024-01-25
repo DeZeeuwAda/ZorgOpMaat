@@ -10,8 +10,8 @@ public class Database {
     // connectie maken met database
     public Database() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://adainforma.tk/bp5_ikigai?" +
-                    "user=ikigai&password=1@8a7L5jm");
+            this.connection = DriverManager.getConnection("jdbc:mysql://adainforma.tk/bp2_zorgopmaat?" +
+                    "user=zorgopmaat&password=527n2!jaE");
             System.out.println(this.connection);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,7 +29,7 @@ public class Database {
     }
 
     // Functie om afspraken toe te voegen, om deze in MaakAfspraak te gebruiken
-    public void toevoegenAfspraak(int patientid, int zorgverlenerid, String datum, String tijd, String locatie) {
+    public void toevoegenAfspraak(int patientid, int zorgverlenerid, Date datum, String tijd, String locatie) {
         String query = "INSERT INTO `Afspraak`(`patientid`, `zorgverlenerid`, `datum`, `tijd`, `locatie`) VALUES (" + patientid + "," + zorgverlenerid + ",'" + datum + "','" + tijd + "','" + locatie + "')";
         try (Statement statement = this.connection.createStatement()) {
             statement.execute(query);
@@ -103,5 +103,36 @@ public class Database {
         // Return a default value or handle the situation where the zorgverlener is not found
         return -1;
     }
+
+    // Inside the Database class
+    public List<AfspraakOverzicht> fetchAfspraakOverzichtFromDatabase() {
+        List<AfspraakOverzicht> afspraakOverzichtList = new ArrayList<>();
+
+        // JDBC Query
+        String sqlQuery = "SELECT p.naam AS patient, a.tijd, a.locatie, z.naam AS zorgverlener " +
+                "FROM Afspraak a " +
+                "JOIN Patient p ON a.patientid = p.patientid " +
+                "JOIN Zorgverlener z ON a.zorgverlenerid = z.zorgverlenerid";
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+
+            while (resultSet.next()) {
+                String patient = resultSet.getString("patient");
+                String tijd = resultSet.getString("tijd");
+                String locatie = resultSet.getString("locatie");
+                String zorgverlener = resultSet.getString("zorgverlener");
+
+                AfspraakOverzicht afspraakOverzicht = new AfspraakOverzicht(patient, tijd, locatie, zorgverlener);
+                afspraakOverzichtList.add(afspraakOverzicht);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
+        }
+
+        return afspraakOverzichtList;
+    }
+
 }
 
