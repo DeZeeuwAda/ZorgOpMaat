@@ -20,6 +20,7 @@ import java.util.List;
 public class Overzicht {
 
     public Overzicht(Stage stage) {
+
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
@@ -37,6 +38,7 @@ public class Overzicht {
         planningLabel.setLayoutX(835);
         planningLabel.setLayoutY(245);
 
+        // Correcte aanroep van de methode
         TableView<AfspraakOverzicht> tableView = createAfspraakOverzichtTableView();
         tableView.setLayoutX(835);
         tableView.setLayoutY(280);
@@ -66,20 +68,11 @@ public class Overzicht {
         });
 
         zorgVerlenerBtn = new Button("Zorgverlener");
-        zorgVerlenerBtn.setMinWidth(150);
         zorgVerlenerBtn.setLayoutX(160);
         zorgVerlenerBtn.setLayoutY(450);
-        zorgVerlenerBtn.setOnAction(actionEvent -> {
-            ZorgVerlener zorgverlener = new ZorgVerlener(stage);
-        });
+        zorgVerlenerBtn.setMinWidth(150);
 
-        root.getChildren().addAll(logo, planningLabel, patientBtn, afspraakBtn, zorgPlanBtn, zorgVerlenerBtn, tableView);
-        stage.setTitle("Zorg op Maat overzicht");
-        stage.setScene(scene);
-    }
 
-    private TableView<AfspraakOverzicht> createAfspraakOverzichtTableView() {
-        TableView<AfspraakOverzicht> tableView = new TableView<>();
         TableColumn<AfspraakOverzicht, String> patientColumn = new TableColumn<>("Patient");
         TableColumn<AfspraakOverzicht, String> tijdColumn = new TableColumn<>("Tijd");
         TableColumn<AfspraakOverzicht, String> locatieColumn = new TableColumn<>("Locatie");
@@ -110,9 +103,19 @@ public class Overzicht {
         locatieColumn.setCellValueFactory(cellData -> cellData.getValue().locatieProperty());
         zorgverlenerColumn.setCellValueFactory(cellData -> cellData.getValue().zorgverlenerProperty());
 
-        return tableView;
+        root.getChildren().addAll(logo, planningLabel, tableView, patientBtn, afspraakBtn, zorgPlanBtn, zorgVerlenerBtn);
+        stage.setTitle("Zorg op Maat overzicht");
+        stage.setScene(scene);
     }
 
+    // Methode om de TableView te maken
+    private TableView<AfspraakOverzicht> createAfspraakOverzichtTableView() {
+        TableView<AfspraakOverzicht> tableView = new TableView<>();
+        TableColumn<AfspraakOverzicht, String> patientColumn = new TableColumn<>("Patient");
+        TableColumn<AfspraakOverzicht, String> tijdColumn = new TableColumn<>("Tijd");
+
+        // Je kunt extra kolommen toevoegen indien nodig
+
+        return tableView;
+    }
 }
-
-

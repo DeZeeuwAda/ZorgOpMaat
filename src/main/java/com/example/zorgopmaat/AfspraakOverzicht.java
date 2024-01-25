@@ -1,20 +1,51 @@
 package com.example.zorgopmaat;
 
-// In de AfspraakOverzicht-klasse
-public class AfspraakOverzicht {
-    private String patient;
-    private String tijd;
-    private String locatie;
-    private String zorgverlener;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-    // Constructor met argumenten
+public class AfspraakOverzicht {
+    private final StringProperty patient;
+    private final StringProperty tijd;
+    private final StringProperty locatie;
+    private final StringProperty zorgverlener;
+
     public AfspraakOverzicht(String patient, String tijd, String locatie, String zorgverlener) {
-        this.patient = patient;
-        this.tijd = tijd;
-        this.locatie = locatie;
-        this.zorgverlener = zorgverlener;
+        this.patient = new SimpleStringProperty(patient);
+        this.tijd = new SimpleStringProperty(tijd);
+        this.locatie = new SimpleStringProperty(locatie);
+        this.zorgverlener = new SimpleStringProperty(zorgverlener);
     }
 
-    // Andere methoden en eigenschappen
-}
+    // Getters for properties
+    public String getPatient() {
+        return patient.get();
+    }
 
+    public StringProperty patientProperty() {
+        return patient;
+    }
+
+    public String getTijd() {
+        return tijd.get();
+    }
+
+    public StringProperty tijdProperty() {
+        return tijd;
+    }
+
+    public String getLocatie() {
+        return locatie.get();
+    }
+
+    public StringProperty locatieProperty() {
+        return locatie;
+    }
+
+    public String getZorgverlener() {
+        return zorgverlener.get();
+    }
+
+    public StringProperty zorgverlenerProperty() {
+        return zorgverlener;
+    }
+}
