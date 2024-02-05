@@ -36,7 +36,7 @@ public class MaakAfspraak {
         terugBtn.setLayoutX(100);
         terugBtn.setLayoutY(100);
         terugBtn.setOnAction(actionEvent -> {
-            Patient patient = new Patient(stage);
+            Afspraak afspraak = new Afspraak(stage);
         });
 
         patientName = new Label("Naam Patient");
@@ -107,7 +107,9 @@ public class MaakAfspraak {
         root.getChildren().addAll(terugBtn, patientName, patientChoiceBox, zorgVerlenerNaam, zorgVerlenerChoiceBox,
                 tijdAfspraakLabel, tijdAfspraakInput,datumAfspraakLabel, datumAfspraakDatePicker, locatieAfspraakLabel, locatieAfspraakInput, VoegAfspraakToe);
 
+        stage.setTitle("Afspraak maken");
         stage.setScene(scene);
+
     }
 
     private void populateZorgVerleners() {

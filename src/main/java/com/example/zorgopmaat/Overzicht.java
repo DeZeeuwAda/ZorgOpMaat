@@ -71,8 +71,12 @@ public class Overzicht {
         zorgVerlenerBtn.setLayoutX(160);
         zorgVerlenerBtn.setLayoutY(450);
         zorgVerlenerBtn.setMinWidth(150);
+        zorgVerlenerBtn.setOnAction(actionEvent -> {
+            ZorgVerlener zorgverlener = new ZorgVerlener(stage);
+        });
 
 
+        // Toevoegen van de tableview en invoeren van alle gegevens
         TableColumn<AfspraakOverzicht, String> patientColumn = new TableColumn<>("Patient");
         TableColumn<AfspraakOverzicht, String> tijdColumn = new TableColumn<>("Tijd");
         TableColumn<AfspraakOverzicht, String> locatieColumn = new TableColumn<>("Locatie");
@@ -85,16 +89,6 @@ public class Overzicht {
         List<AfspraakOverzicht> afspraakOverzichtList = database.fetchAfspraakOverzichtFromDatabase();
 
         ObservableList<AfspraakOverzicht> afspraakOverzichtObservableList = FXCollections.observableArrayList(afspraakOverzichtList);
-
-        // Set a custom comparator for the tijdColumn
-        tijdColumn.setComparator(Comparator.comparing(time -> {
-            try {
-                return LocalTime.parse(time);
-            } catch (DateTimeParseException e) {
-                e.printStackTrace(); // Handle the exception according to your application's needs
-                return LocalTime.MIN; // Default to the minimum time in case of an error
-            }
-        }));
 
         tableView.setItems(afspraakOverzichtObservableList);
 
