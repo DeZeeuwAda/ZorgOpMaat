@@ -50,6 +50,19 @@ public class Database {
         }
     }
 
+    // toevoegen van zorgverleners
+    public void toevoegenZorgVerlener(String naam, String specialisatie, String contactgegevens) {
+        String query = "INSERT INTO `Zorgverlener`(`naam`, `specialisatie`, `contactgegevens`) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, naam);
+            statement.setString(2, specialisatie);
+            statement.setString(3, contactgegevens);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<ZorgverlenerKeuze> fetchZorgVerlenersFromDatabase() {
         List<ZorgverlenerKeuze> zorgVerleners = new ArrayList<>();
         String sqlQuery = "SELECT zorgverlenerid, naam FROM Zorgverlener";
@@ -68,8 +81,34 @@ public class Database {
             e.printStackTrace();
         }
 
+
         return zorgVerleners;
     }
+
+    public List<ZorgVerlenerOverzicht> fetchZorgVerlenerOverzichtFromDatabase() {
+        List<ZorgVerlenerOverzicht> zorgVerlenerOverzichtList = new ArrayList<>();
+        String ZorgVerlenerOverzichtQuery = "SELECT naam, specialisatie, contactgegevens FROM Zorgverlener";
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(ZorgVerlenerOverzichtQuery)) {
+
+            while (resultSet.next()) {
+                String naam = resultSet.getString("naam");
+                String specialisatie = resultSet.getString("specialisatie");
+                String contactgegevens = resultSet.getString("contactgegevens");
+
+                ZorgVerlenerOverzicht zorgVerlenerOverzicht = new ZorgVerlenerOverzicht(naam, specialisatie, contactgegevens);
+                zorgVerlenerOverzichtList.add(zorgVerlenerOverzicht);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return zorgVerlenerOverzichtList;
+    }
+
+
 
     public List<PatientKeuze> fetchPatientenFromDatabase() {
         List<PatientKeuze> patients = new ArrayList<>();
@@ -128,6 +167,7 @@ public class Database {
         return -1;
     }
 
+    // Vult de tableview met de gegevens uit de database voor de afspraken
     public List<AfspraakOverzicht> fetchAfspraakOverzichtFromDatabase() {
         List<AfspraakOverzicht> afspraakOverzichtList = new ArrayList<>();
         String sqlQuery = "SELECT p.naam AS patient, a.tijd, a.locatie, z.naam AS zorgverlener " +
@@ -155,6 +195,7 @@ public class Database {
         return afspraakOverzichtList;
     }
 
+    //Afspraken ophalen uit de database
     public List<AfspraakData> fetchAfspraakDataFromDatabase() {
         List<AfspraakData> afspraakDataList = new ArrayList<>();
         String sqlQuery = "SELECT p.naam AS patient, z.naam AS zorgverlener, a.datum, a.tijd, a.locatie " +
@@ -183,6 +224,7 @@ public class Database {
         return afspraakDataList;
     }
 
+    //Wijzigen van de afspraak, waarbij de oude gegevens worden vervangen met de nieuwe.
     public void wijzigAfspraak(AfspraakData oudeAfspraak, AfspraakData nieuweAfspraak) {
         if (bevestigActie("Wijzigen")) {
             String updateQuery = "UPDATE Afspraak SET datum=?, tijd=?, locatie=? WHERE afspraakid=?";
@@ -198,12 +240,26 @@ public class Database {
             }
         }
     }
-
+    //Het verwijderen van de afspraak in de afspraakdatabase.
     public void verwijderAfspraak(AfspraakData afspraak) {
         if (bevestigActie("Verwijderen")) {
             String deleteQuery = "DELETE FROM Afspraak WHERE afspraakid=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
                 preparedStatement.setInt(1, getAfspraakId(afspraak));
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //Verwijderen van een zorgverlener binnen de zorgverlener database
+    public void verwijderZorgVerlener(ZorgVerlenerOverzicht zorgverlener) {
+        if (bevestigActie("Verwijderen")) {
+            String deleteQuery = "DELETE FROM Zorgverlener WHERE naam=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setString(1, zorgverlener.getNaam());
+
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

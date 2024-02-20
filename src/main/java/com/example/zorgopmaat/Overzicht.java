@@ -28,6 +28,7 @@ public class Overzicht {
         final Label planningLabel;
         final Button patientBtn, afspraakBtn, zorgPlanBtn, zorgVerlenerBtn;
 
+
         Image image = new Image(HelloApplication.class.getResource("images/ZorgOpMaat.png").toString());
         ImageView logo = new ImageView(image);
         logo.setImage(image);
@@ -84,7 +85,7 @@ public class Overzicht {
 
         tableView.getColumns().addAll(patientColumn, tijdColumn, locatieColumn, zorgverlenerColumn);
 
-        // Fetch data from the database using Database class
+        // Haal data uit de database door de database class
         Database database = new Database();
         List<AfspraakOverzicht> afspraakOverzichtList = database.fetchAfspraakOverzichtFromDatabase();
 
@@ -107,8 +108,6 @@ public class Overzicht {
         TableView<AfspraakOverzicht> tableView = new TableView<>();
         TableColumn<AfspraakOverzicht, String> patientColumn = new TableColumn<>("Patient");
         TableColumn<AfspraakOverzicht, String> tijdColumn = new TableColumn<>("Tijd");
-
-        // Je kunt extra kolommen toevoegen indien nodig
 
         return tableView;
     }

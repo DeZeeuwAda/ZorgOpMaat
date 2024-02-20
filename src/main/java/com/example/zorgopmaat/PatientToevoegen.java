@@ -1,11 +1,12 @@
 package com.example.zorgopmaat;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
 public class PatientToevoegen {
     public PatientToevoegen(Stage stage) {
@@ -15,7 +16,12 @@ public class PatientToevoegen {
 
         final Label patientName, patientGeboortedatum, patientContactgegevens;
         final TextField patientNameInput, patientGeboortedatumInput, patientContactInput;
-        final Button VoegPatientToe;
+        final Button terugBtn, VoegPatientToe;
+
+        terugBtn = new Button("Terug");
+        terugBtn.setLayoutX(100);
+        terugBtn.setLayoutY(100);
+        terugBtn.setOnAction(actionEvent -> { Overzicht overzicht = new Overzicht(stage);});
 
         patientName = new Label("Naam patient");
         patientName.setLayoutX(357);
@@ -46,21 +52,29 @@ public class PatientToevoegen {
         VoegPatientToe.setLayoutY(630);
 
         VoegPatientToe.setOnAction(e->{
-            Database database = new Database();
+
             String Naam = patientNameInput.getText();
             String Geboortedatum = patientGeboortedatumInput.getText();
             String Contactgegevens = patientContactInput.getText();
-            database.toevoegenPatient(Naam, Geboortedatum, Contactgegevens);
 
-            Patient patient = new Patient(stage);
+            if (Naam.isEmpty() || Geboortedatum.isEmpty() || Contactgegevens.isEmpty()) {
+                // Toon een melding dat alle velden moeten worden ingevuld
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Oeps!");
+                alert.setHeaderText(null);
+                alert.setContentText("Graag alle gegevens invullen.");
+                alert.showAndWait();
+            } else {
+                // Alle velden zijn ingevuld, voeg zorgverlener toe aan database
+                Database database = new Database();
+                database.toevoegenPatient(Naam, Geboortedatum, Contactgegevens);
+                Patient patient = new Patient(stage);
+            }
+
+
         });
 
-
-
-
-
-
-    root.getChildren().addAll(patientName, patientNameInput, patientGeboortedatum, patientGeboortedatumInput, patientContactgegevens, patientContactInput, VoegPatientToe);
+    root.getChildren().addAll(terugBtn, patientName, patientNameInput, patientGeboortedatum, patientGeboortedatumInput, patientContactgegevens, patientContactInput, VoegPatientToe);
         stage.setTitle("Zorg op Maat patient toevoegen");
         stage.setScene(scene);
     }
