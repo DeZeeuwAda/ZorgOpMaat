@@ -28,6 +28,7 @@ public class MaakAfspraak {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         // Initialisatie van de databasehandler
         databaseHandler = new Database();

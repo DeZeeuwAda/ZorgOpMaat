@@ -24,6 +24,7 @@ public class ZorgPlanToevoegen {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         patientChoiceBox = new ChoiceBox<>();
         patientChoiceBox.setLayoutX(150);

@@ -25,6 +25,7 @@ public class ZorgPlan {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         tableView = new TableView<>();
         tableView.setLayoutX(50);

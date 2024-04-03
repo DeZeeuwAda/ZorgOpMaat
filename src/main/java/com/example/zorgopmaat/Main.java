@@ -11,10 +11,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main  extends javafx.application.Application {
+
+
+
     @Override
     public void start(Stage stage) throws IOException {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
+
+        Styling.applyStylesheet(scene);
 
 
         final Label welkomLabel;
@@ -26,6 +31,8 @@ public class Main  extends javafx.application.Application {
         Image icon = new Image(getClass().getResourceAsStream(iconPath));
         // Stel het icoon in voor de titelbalk van het podium (stage)
         stage.getIcons().add(icon);
+
+
 
 
 

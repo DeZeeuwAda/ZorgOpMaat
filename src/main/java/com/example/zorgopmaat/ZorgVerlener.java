@@ -19,6 +19,7 @@ public class ZorgVerlener {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         //tableview maken voor het overzicht van de zorgverleners
         TableView<ZorgVerlenerOverzicht> tableView = createZorgVerlenerOverzichtTableView();

@@ -15,6 +15,7 @@ public class ZorgverlenerToevoegen {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         final Label zorgVerlenerNaam, zorgVerlenerSpecialisatie, zorgVerlenerContactgegevens;
         final TextField zorgVerlenerNaamInput, zorgVerlenerContactInput, zorgVerlenerSpecialisatieInput;

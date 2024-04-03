@@ -14,6 +14,7 @@ public class PatientToevoegen {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         final Label patientName, patientGeboortedatum, patientContactgegevens;
         final TextField patientNameInput, patientGeboortedatumInput, patientContactInput;

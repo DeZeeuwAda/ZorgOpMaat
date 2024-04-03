@@ -15,6 +15,7 @@ public class Patient {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
+        Styling.applyStylesheet(scene);
 
         final Button terugBtn, patientToevoegenBtn, patientVerwijderenBtn;
 

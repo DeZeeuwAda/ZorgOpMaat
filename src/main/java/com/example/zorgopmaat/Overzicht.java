@@ -22,6 +22,8 @@ public class Overzicht {
         Scene scene = new Scene(root, 1280, 832);
         root.setStyle("-fx-background-color: #e4eaea;");
 
+        Styling.applyStylesheet(scene);
+
         final Label planningLabel;
         final Button patientBtn, afspraakBtn, zorgPlanBtn, zorgVerlenerBtn;
 
