@@ -16,7 +16,7 @@ public class AfspraakOverzicht {
         this.zorgverlener = new SimpleStringProperty(zorgverlener);
     }
 
-    // Getters for properties
+    // Getters voor het overzicht
     public String getPatient() {
         return patient.get();
     }

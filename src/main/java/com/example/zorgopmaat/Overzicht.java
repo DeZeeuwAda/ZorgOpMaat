@@ -12,9 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
-import java.util.Comparator;
 import java.util.List;
 
 public class Overzicht {
@@ -28,8 +25,7 @@ public class Overzicht {
         final Label planningLabel;
         final Button patientBtn, afspraakBtn, zorgPlanBtn, zorgVerlenerBtn;
 
-
-        Image image = new Image(HelloApplication.class.getResource("images/ZorgOpMaat.png").toString());
+        Image image = new Image(Main.class.getResource("images/ZorgOpMaat.png").toString());
         ImageView logo = new ImageView(image);
         logo.setImage(image);
         logo.setLayoutX(515);
@@ -85,7 +81,7 @@ public class Overzicht {
 
         tableView.getColumns().addAll(patientColumn, tijdColumn, locatieColumn, zorgverlenerColumn);
 
-        // Haal data uit de database door de database class
+        // Haalt de data uit de database door database klasse te gebruiken
         Database database = new Database();
         List<AfspraakOverzicht> afspraakOverzichtList = database.fetchAfspraakOverzichtFromDatabase();
 
@@ -103,11 +99,13 @@ public class Overzicht {
         stage.setScene(scene);
     }
 
-    // Methode om de TableView te maken
+    // Methode om de TableView te maken met het overzicht wat ik nodig heb
     private TableView<AfspraakOverzicht> createAfspraakOverzichtTableView() {
         TableView<AfspraakOverzicht> tableView = new TableView<>();
         TableColumn<AfspraakOverzicht, String> patientColumn = new TableColumn<>("Patient");
         TableColumn<AfspraakOverzicht, String> tijdColumn = new TableColumn<>("Tijd");
+
+
 
         return tableView;
     }

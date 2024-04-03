@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class PatientToevoegen {
+
     public PatientToevoegen(Stage stage) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 832);
@@ -21,7 +22,8 @@ public class PatientToevoegen {
         terugBtn = new Button("Terug");
         terugBtn.setLayoutX(100);
         terugBtn.setLayoutY(100);
-        terugBtn.setOnAction(actionEvent -> { Overzicht overzicht = new Overzicht(stage);});
+        terugBtn.setOnAction(actionEvent -> {
+            Patient patient = new Patient(stage);});
 
         patientName = new Label("Naam patient");
         patientName.setLayoutX(357);
@@ -74,7 +76,7 @@ public class PatientToevoegen {
 
         });
 
-    root.getChildren().addAll(terugBtn, patientName, patientNameInput, patientGeboortedatum, patientGeboortedatumInput, patientContactgegevens, patientContactInput, VoegPatientToe);
+        root.getChildren().addAll(terugBtn, patientName, patientNameInput, patientGeboortedatum, patientGeboortedatumInput, patientContactgegevens, patientContactInput, VoegPatientToe);
         stage.setTitle("Zorg op Maat patient toevoegen");
         stage.setScene(scene);
     }

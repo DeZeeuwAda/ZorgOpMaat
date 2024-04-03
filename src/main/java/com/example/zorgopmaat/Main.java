@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication  extends javafx.application.Application {
+public class Main  extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         Pane root = new Pane();
@@ -29,7 +29,7 @@ public class HelloApplication  extends javafx.application.Application {
 
 
 
-        Image image = new Image(HelloApplication.class.getResource("images/ZorgOpMaat.png").toString());
+        Image image = new Image(Main.class.getResource("images/ZorgOpMaat.png").toString());
         ImageView logo = new ImageView(image);
         logo.setImage(image);
         logo.setLayoutX(536);
