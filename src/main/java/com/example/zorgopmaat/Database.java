@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.sql.*;
-        import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -376,5 +376,4 @@ public class Database {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 }
-
 

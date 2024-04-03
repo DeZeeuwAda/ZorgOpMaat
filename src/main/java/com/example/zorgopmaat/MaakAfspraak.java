@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-        import javafx.scene.layout.Pane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.sql.Date;
