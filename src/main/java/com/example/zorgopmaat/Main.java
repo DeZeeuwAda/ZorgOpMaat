@@ -52,10 +52,6 @@ public class Main  extends javafx.application.Application {
         klikDoorBtn.setLayoutY(520);
         klikDoorBtn.setOnAction(actionEvent -> { Overzicht overzicht = new Overzicht(stage);});
 
-
-
-
-
         root.getChildren().addAll(welkomLabel, klikDoorBtn, logo);
         stage.setTitle("Zorg op Maat Portaal");
         stage.setScene(scene);

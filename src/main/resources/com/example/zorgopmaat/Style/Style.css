@@ -1,7 +1,18 @@
+@font-face {
+    font-family: 'IBMPlexSans';
+    src: url('../Fonts/IBMPlexSans-Regular.ttf');
+}
+
 .root {
-    -fx-font-family: 'Arial';
+    -fx-font-family: 'IBMPlexSans';
     -fx-base: #9abde8;
     -fx-background: #f4f4f4;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-family: 'IBMPlexSans';
 }
 
 .button {
@@ -11,22 +22,24 @@
     -fx-padding: 5 10 5 10;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-font-family: 'IBMPlexSans';
 }
 
 .button:hover {
     -fx-background-color: #5c85af, linear-gradient(#6c93be, #5c85af), linear-gradient(#6c93be 0%, #5c85af 49%, #6b8cc3 100%);
 }
 
-.label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333333;
-}
 
 .table-view {
     -fx-base: #e2ecf4;
     -fx-control-inner-background: #e2ecf4;
     -fx-background-color: #e2ecf4;
-    -fx-table-cell-border-color: transparent;
+    -fx-font-family: 'IBMPlexSans';
+}
+
+.table-view .cell {
+    -fx-font-family: IBMPlexSans;
+    -fx-font-size: 14px;
 }
 
 .table-column {
@@ -47,4 +60,6 @@
 .table-row-cell:selected {
     -fx-background-color: #a1c2e7;
     -fx-text-fill: white;
+    -fx-font-family: 'IBMPlexSans';
 }
+

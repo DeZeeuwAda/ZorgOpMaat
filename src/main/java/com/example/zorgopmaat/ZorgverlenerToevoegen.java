@@ -42,7 +42,7 @@ public class ZorgverlenerToevoegen {
         zorgVerlenerSpecialisatieInput.setLayoutX(557);
         zorgVerlenerSpecialisatieInput.setLayoutY(427);
 
-        zorgVerlenerContactgegevens = new Label("Contactgegevens patient");
+        zorgVerlenerContactgegevens = new Label("Contactgegevens zorgverlener");
         zorgVerlenerContactgegevens.setLayoutX(357);
         zorgVerlenerContactgegevens.setLayoutY(479);
 
