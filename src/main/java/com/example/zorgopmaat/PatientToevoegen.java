@@ -54,6 +54,7 @@ public class PatientToevoegen {
         VoegPatientToe.setLayoutX(560);
         VoegPatientToe.setLayoutY(630);
 
+        // Gegevens doorgeven vanuit het formulier naar de database
         VoegPatientToe.setOnAction(e->{
 
             String Naam = patientNameInput.getText();

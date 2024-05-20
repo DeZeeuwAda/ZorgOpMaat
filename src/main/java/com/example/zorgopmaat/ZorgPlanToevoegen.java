@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.util.List;
 
 public class ZorgPlanToevoegen {
@@ -26,11 +25,13 @@ public class ZorgPlanToevoegen {
         root.setStyle("-fx-background-color: #e4eaea;");
         Styling.applyStylesheet(scene);
 
+        // Choicebox met de huidige patiënten
         patientChoiceBox = new ChoiceBox<>();
         patientChoiceBox.setLayoutX(150);
         patientChoiceBox.setLayoutY(100);
         patientChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateForm(newValue));
 
+        // Choicebox met de huidige zorgverleners
         zorgverlenerChoiceBox = new ChoiceBox<>();
         zorgverlenerChoiceBox.setLayoutX(150);
         zorgverlenerChoiceBox.setLayoutY(140);
@@ -60,6 +61,7 @@ public class ZorgPlanToevoegen {
         behandelplanTxtArea.setLayoutY(220);
         behandelplanTxtArea.setMaxSize(300, 100);
 
+        // Past het zorgplan aan
         updateBtn = new Button("Zet zorgplan in het systeem");
         updateBtn.setLayoutX(150);
         updateBtn.setLayoutY(360);
@@ -82,19 +84,21 @@ public class ZorgPlanToevoegen {
         stage.setScene(scene);
     }
 
+    // Ophalen van de patiënten uit de database
     private void vulPatientChoiceBox() {
         List<PatientKeuze> patienten = database.fetchPatientenFromDatabase();
         patientChoiceBox.getItems().setAll(patienten);
     }
 
+    // Ophalen van de zorgverleners uit de database
     private void vulZorgverlenerChoiceBox() {
         List<ZorgverlenerKeuze> zorgverleners = database.fetchZorgVerlenersFromDatabase();
         zorgverlenerChoiceBox.getItems().setAll(zorgverleners);
     }
 
+    // Aanpassen van het zorgplan
     private void updateForm(PatientKeuze patient) {
         if (patient != null) {
-            // Voorbeeld data ophalen, vervang dit door de daadwerkelijke methoden om data op te halen
             diagnoseTxtField.setText("Diagnose van " + patient.getPatientNaam());
             behandelplanTxtArea.setText("Behandelplan voor " + patient.getPatientNaam());
         } else {
@@ -107,7 +111,6 @@ public class ZorgPlanToevoegen {
         PatientKeuze geselecteerdePatient = patientChoiceBox.getValue();
         ZorgverlenerKeuze geselecteerdeZorgverlener = zorgverlenerChoiceBox.getValue();
         if (geselecteerdePatient != null && geselecteerdeZorgverlener != null) {
-            // Logica om het zorgplan voor de geselecteerde patiënt en zorgverlener toe te voegen
             database.toevoegenZorgPlan(geselecteerdePatient.getPatientId(), geselecteerdeZorgverlener.getZorgverlenerId(), diagnoseTxtField.getText(), behandelplanTxtArea.getText());
             System.out.println("Zorgplan toegevoegd voor: " + geselecteerdePatient.getPatientNaam());
 

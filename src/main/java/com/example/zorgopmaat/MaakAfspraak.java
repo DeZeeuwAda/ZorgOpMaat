@@ -95,13 +95,13 @@ public class MaakAfspraak {
         VoegAfspraakToe.setLayoutX(500);
         VoegAfspraakToe.setLayoutY(650);
         VoegAfspraakToe.setOnAction(e -> {
-            // Voeg je logica toe om de afspraak op te slaan
+
             voegAfspraakToe();
 
             Afspraak afspraak = new Afspraak(stage);
         });
 
-        // Populate the ChoiceBoxes with values from the database
+        // ChoiceBoxes vullen met waarden uit de database
         populateZorgVerleners();
         populatePatienten();
 
@@ -113,12 +113,14 @@ public class MaakAfspraak {
 
     }
 
+    // Tonen van de zorgverleners in de keuzelijst
     private void populateZorgVerleners() {
         List<ZorgverlenerKeuze> zorgVerleners = databaseHandler.fetchZorgVerlenersFromDatabase();
         ObservableList<ZorgverlenerKeuze> zorgVerlenersList = FXCollections.observableArrayList(zorgVerleners);
         zorgVerlenerChoiceBox.setItems(zorgVerlenersList);
     }
 
+    // Tonen van de patiënten in de keuzelijst
     private void populatePatienten() {
         List<PatientKeuze> patienten = databaseHandler.fetchPatientenFromDatabase();
         ObservableList<PatientKeuze> patientenList = FXCollections.observableArrayList(patienten);

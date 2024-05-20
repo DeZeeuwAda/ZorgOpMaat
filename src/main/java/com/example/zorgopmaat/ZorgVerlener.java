@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.util.List;
 
 public class ZorgVerlener {
@@ -28,7 +27,7 @@ public class ZorgVerlener {
         tableView.setMinWidth(400);
         tableView.setMaxHeight(300);
 
-        //Kolommen toevoegen waarin informatie wordt weergegeven
+        //Kolommen toevoegen waarin de informatie wordt weergegeven
         TableColumn<ZorgVerlenerOverzicht, String> naamColumn = new TableColumn<>("Naam");
         TableColumn<ZorgVerlenerOverzicht, String> specialisatieColumn = new TableColumn<>("Specialisatie");
         TableColumn<ZorgVerlenerOverzicht, String> contactgegevensColumn = new TableColumn<>("Contactgegevens");
@@ -44,7 +43,7 @@ public class ZorgVerlener {
         specialisatieColumn.setCellValueFactory(cellData -> cellData.getValue().specialisatieProperty());
         contactgegevensColumn.setCellValueFactory(cellData -> cellData.getValue().contactgegevensProperty());
 
-        //toevoegen in de tableview.
+        // Toevoegen in de tableview.
         tableView.getColumns().addAll(naamColumn, specialisatieColumn, contactgegevensColumn);
 
         final Label overzichtLabel;
@@ -87,7 +86,7 @@ public class ZorgVerlener {
 
     private TableView<ZorgVerlenerOverzicht> createZorgVerlenerOverzichtTableView() {
         TableView<ZorgVerlenerOverzicht> tableView = new TableView<>();
-        // Hier kun je extra initialisaties van de TableView toevoegen
+
         return tableView;
     }
 }

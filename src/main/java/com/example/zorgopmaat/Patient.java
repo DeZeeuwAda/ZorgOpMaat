@@ -19,6 +19,7 @@ public class Patient {
 
         final Button terugBtn, patientToevoegenBtn, patientVerwijderenBtn;
 
+        // Toevoegen van het logo op de pagina
         Image image = new Image(Main.class.getResource("images/ZorgOpMaat.png").toString());
         ImageView logo = new ImageView(image);
         logo.setImage(image);

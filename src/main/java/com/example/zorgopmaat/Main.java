@@ -25,17 +25,6 @@ public class Main  extends javafx.application.Application {
         final Label welkomLabel;
         final Button klikDoorBtn;
 
-        // Het pad naar je afbeeldingsbestand voor het icoon in de titelbalk
-        String iconPath = "/com/example/zorgopmaat/images/ZorgOpMaat.png";
-        // Laad het icoon voor de titelbalk
-        Image icon = new Image(getClass().getResourceAsStream(iconPath));
-        // Stel het icoon in voor de titelbalk van het podium (stage)
-        stage.getIcons().add(icon);
-
-
-
-
-
         Image image = new Image(Main.class.getResource("images/ZorgOpMaat.png").toString());
         ImageView logo = new ImageView(image);
         logo.setImage(image);

@@ -8,6 +8,7 @@ public class ZorgVerlenerOverzicht {
     private final StringProperty specialisatie;
     private final StringProperty contactgegevens;
 
+    // Gegevens voor het overzicht waarin de zorgverlener te zien is
     public ZorgVerlenerOverzicht(String naam, String specialisatie, String contactgegevens) {
         this.naam = new SimpleStringProperty(naam);
         this.specialisatie = new SimpleStringProperty(specialisatie);

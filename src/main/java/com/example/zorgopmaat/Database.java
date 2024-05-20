@@ -111,6 +111,7 @@ public class Database {
         }
     }
 
+    // Ophalen van de zorgverleners
     public List<ZorgverlenerKeuze> fetchZorgVerlenersFromDatabase() {
         List<ZorgverlenerKeuze> zorgVerleners = new ArrayList<>();
         String sqlQuery = "SELECT zorgverlenerid, naam FROM Zorgverlener";
@@ -133,6 +134,7 @@ public class Database {
         return zorgVerleners;
     }
 
+    // Ophalen van zorgverleners en deze tonen in het overzicht
     public List<ZorgVerlenerOverzicht> fetchZorgVerlenerOverzichtFromDatabase() {
         List<ZorgVerlenerOverzicht> zorgVerlenerOverzichtList = new ArrayList<>();
         String ZorgVerlenerOverzichtQuery = "SELECT naam, specialisatie, contactgegevens FROM Zorgverlener";
@@ -179,7 +181,7 @@ public class Database {
 
     // Afspraak deel
 
-
+    // Toevoegen van de afspraken in de database
     public void toevoegenAfspraak(int patientid, int zorgverlenerid, Date datum, String tijd, String locatie) {
         String query = "INSERT INTO `Afspraak`(`patientid`, `zorgverlenerid`, `datum`, `tijd`, `locatie`) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -365,7 +367,7 @@ public class Database {
 
 
 
-
+    // Maken en laten zien van alerts
     boolean bevestigActie(String actie) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Bevestig " + actie);
